@@ -1,0 +1,369 @@
+<div class="card ">
+  <div class="card-header">
+    <div class="display-inline pt-1 pb-1">
+      <h5 class="float-start-h">{{'dataMixingChartDetail'|translate}}</h5>
+      <dx-button class="float-right" icon="glyphicon glyphicon-remove"
+                 (click)="redirectToHome()"
+                 hint="{{'redirectToDataMixing'|translate}}"></dx-button>
+    </div>
+  </div>
+
+  <div class="card-body dx-custom-sheme">
+    <dx-form style="width:100%;"
+             searchEnabled=true;
+             [(formData)]="dataMixingMaster"
+             method="post"
+             [showColonAfterLabel]="true"
+             [showValidationSummary]="true"
+             [colCount]="2">
+      <dxi-item [colSpan]="2">
+        <div class="dx-fieldset" id="notes-container">
+
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'dataMixingVersion'|translate}}</div>
+            <div class="dx-field-value">
+              <dx-text-box [(value)]="dataMixingVersion_" [readOnly]="true"></dx-text-box>
+            </div>
+          </div>
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'dataMixingVersionDescription'|translate}}</div>
+            <div class="dx-field-value">
+              <dx-text-area [(value)]="dataMixingVersionDescription_"></dx-text-area>
+            </div>
+          </div>
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'approvalStatus'|translate}}</div>
+            <div class="dx-field-value">
+              <dx-text-box [(value)]="approvalStatusName_" [readOnly]="true"></dx-text-box>
+            </div>
+          </div>
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'fromDate'|translate}}</div>
+            <div class="dx-field-value">
+              <dx-text-box [(value)]="fromDate_" [readOnly]="true"></dx-text-box>
+            </div>
+          </div>
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'excelLink'|translate}}</div>
+            <div class="dx-field-value">
+              <div *ngIf="linkExcelVisible==true">
+                <button type="button" style="background-color:white;text-indent: 10px;color:darkblue; text-decoration: underline;text-align: left; width:590px;height:38.75px;border: 1px solid lightgray;"
+                        class="bt" (click)="downloadExcelFile()">
+                  {{linkExcelText}}
+                </button>
+                <dx-button style="width:38.75px;height:38.75px;" hint="{{ 'copyPath' | translate }}" (onClick)="copyExelUrl()"><mat-icon>file_copy</mat-icon></dx-button>
+
+              </div>
+              <input style="width:527px" class="form-control" type="file"
+                     (change)="onExcelChange($event)" *ngIf="showUploaderExcel">
+
+              <button type="button" style="width:101.75px;height:38.5px;border: 1px solid lightgray;" (click)="onExcelUpload()"
+                      class="btn btn-light">
+                {{'upload'|translate}}
+              </button>
+            </div>
+          </div>
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'approvalMailLink'|translate}}</div>
+
+            <div class="dx-field-value">
+              <div *ngIf="linkMailVisible==true">
+                <button type="button" style="background-color:white;text-indent: 10px;color:darkblue; text-decoration: underline;text-align: left; width:590px;height:38.75px;border: 1px solid lightgray;"
+                        class="bt" (click)="downloadFile()">
+                  {{linkMailText}}
+                </button>
+                <dx-button style="width:38.75px;height:38.75px;" hint="{{ 'copyPath' | translate }}" (onClick)="copyMailUrl()"><mat-icon>file_copy</mat-icon></dx-button>
+
+              </div>
+              <input style="width:527px" class="form-control" type="file"
+                     (change)="onMailChange($event)" *ngIf="showUploaderMail">
+
+              <button type="button" style="width:101.75px;height:38.75px;border: 1px solid lightgray;" (click)="onMailUpload()"
+                      class="btn btn-light">
+                {{'upload'|translate}}
+              </button>
+
+
+            </div>
+            <br>
+          </div>
+
+        </div>
+        <hr />
+        <div style="text-align: center ">
+          <dx-button class="btn-light button-color" icon="glyphicon glyphicon-edit" hint="{{ 'Update' | translate }}" (onClick)="updateMasterData(dataMixingVersionDescription_, excelLink_, approvalMailLink_)"></dx-button>
+          <div class="divider"></div> <div class="divider"></div>
+          <dx-button *ngIf="importVisible !=true" class="btn-light button-color" icon="glyphicon glyphicon-import" hint="{{ 'importData' | translate }}" (onClick)=" warningImportPopUp() "></dx-button>
+          <div class="divider"></div> <div class="divider"></div>
+          <dx-button class="btn-light button-color" icon="glyphicon glyphicon-check" hint="{{ 'approvalStatusDataMixing' | translate }}" (onClick)=" warningApprovementPopUp() "></dx-button>
+        </div>
+
+
+
+      </dxi-item>
+    </dx-form>
+
+
+  </div>
+ 
+
+  <div class="card-body">
+
+    <dx-data-grid [dataSource]="dataMixing"
+                  (onExporting)="onExporting($event)"
+                  (onRowDblClick)="detailData($event)"
+                  [hoverStateEnabled]="true" rowAlternationEnabled="true"
+                  [columnAutoWidth]="true" [wordWrapEnabled]="true"
+                  [showBorders]="true">
+      <dxo-export [enabled]="true" fileName={{dataMixingVersion_}}></dxo-export>
+      <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+      <dxo-pager [allowedPageSizes]="[8, 12, 20]" [showInfo]="true" [showNavigationButtons]="true" [showPageSizeSelector]="true" [visible]="true"></dxo-pager>
+
+      <dxo-search-panel [visible]="true" [width]="425"></dxo-search-panel>
+      <dxo-sorting mode="multiple"></dxo-sorting>
+
+      <dxi-column dataField="dataDictionaryId" [caption]="'dataDictionaryId'|translate" [width]="150" [allowExporting]="true" [allowSorting]="true"></dxi-column>
+      <dxi-column dataField="dataDescription" [caption]="'dataDictionaryDescription'|translate" [visible]="false" [width]="150" [allowExporting]="true" [allowSorting]="true"></dxi-column>
+      <dxi-column dataField="dataMixingScope" [caption]="'scope'|translate" [width]="245" [allowExporting]="true" [allowSorting]="true"></dxi-column>
+      <dxi-column dataField="dataMixingRule" [caption]="'rule'|translate" [width]="275" [allowExporting]="true" [allowSorting]="true"></dxi-column>
+      <dxi-column dataField="dataMixingDescription" [caption]="'description'|translate" [allowExporting]="true" [width]="350" [allowSorting]="true"></dxi-column>
+
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+      <dxi-column [width]="90" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate"></dxi-column>
+      <div *dxTemplate="let data of 'cellTemplate'" class="d-flex justify-content-center">
+        <dx-button icon="glyphicon glyphicon-trash"
+                   (click)="warningDeletePopUp(data)"
+                   hint="Sil"></dx-button>
+      </div>
+    </dx-data-grid>
+
+
+
+
+  </div>
+</div>
+
+
+<dx-popup width="850"
+          height="385"
+          [showTitle]="true"
+          [dragEnabled]="false"
+          [title]="popUpText"
+          [closeOnOutsideClick]="false"
+          [showCloseButton]="true"
+          [(visible)]="popupVisible">
+  <dx-scroll-view width="100%" height="100%">
+    <dxo-position at="center"
+                  my="center"
+                  [of]="positionOf">
+    </dxo-position>
+
+
+
+
+
+
+    <div class="dx-field">
+
+      <div class="dx-field-label" style="padding-left:5px">{{'dataDictionaryId'|translate}}</div>
+
+      <dx-button class="e" text={{newId}} style="color:darkblue; text-decoration: underline;text-align: left; text-indent: -10px; " width="477" height="37" class="dx-field-value" hint="Ayrıntıları görüntülemek için tıklayın" (onClick)="detailDataPage(newId)">
+
+      </dx-button>
+
+
+    </div>
+
+    <div class="dx-field">
+      <div class="dx-field-label" style="padding-left:5px">{{'dataMixingScope'|translate}}</div>
+      <div class="dx-field-value">
+        <dx-select-box [deferRendering]="false"
+                       [items]="keyValueModelScope"
+                       displayExpr="value"
+                       valueExpr="key"
+                       [searchEnabled]="true"
+                       [searchExpr]="['key', 'value']"
+                       [(ngModel)]="scope"
+                       placeholder="{{'Select'|translate}}">
+         
+          <dx-validator>
+            <dxi-validation-rule  type="required" *ngIf="validatorCheckingScope ==true"
+                                 message="Veri Karıştırma Kapsamı seçilmelidir.">
+            </dxi-validation-rule>
+          </dx-validator>
+
+        </dx-select-box>
+
+
+
+      </div>
+    </div>
+    
+    <div class="dx-field">
+      <div class="dx-field-label" style="padding-left:5px">{{'dataMixingRule'|translate}}</div>
+      <div class="dx-field-value">
+        <dx-select-box [deferRendering]="false"
+                       [items]="keyValueModelRule"
+                       displayExpr="value"
+                       valueExpr="key"
+                       [searchEnabled]="true"
+                       [searchExpr]="['key', 'value']"
+                       [(ngModel)]="rule"
+                       placeholder="{{'Select'|translate}}">
+
+          <dx-validator>
+            <dxi-validation-rule type="required" *ngIf="validatorCheckingRule ==true"
+                                 message="Veri Karıştırma Kuralı seçilmelidir.">
+            </dxi-validation-rule>
+          </dx-validator>
+        </dx-select-box>
+      </div>
+    </div>
+
+
+
+
+    <div class="dx-field">
+      <div class="dx-field-label" style="padding-left:5px">{{'dataMixingVersionDescription'|translate}}</div>
+      <div class="dx-field-value">
+        <dx-text-area [(value)]="desc" height="85">
+          <dx-validator>
+            <dxi-validation-rule type="required" *ngIf="validatorChecking ==true"
+                                 message="Veri Karıştırma Versiyonu Açıklaması alanı doldurulmalıdır.">
+            </dxi-validation-rule>
+          </dx-validator>
+
+
+
+        </dx-text-area>
+      </div>
+
+    </div>
+
+    
+      <div style="text-align: center;">
+
+        <dx-button class="btn-light button-color" icon="glyphicon glyphicon-edit" hint="{{ 'Update' | translate }}" [useSubmitBehavior]="true" (onClick)="updateDetailData(newId,masterId,rule,desc,scope)"></dx-button>
+      </div>
+    
+  </dx-scroll-view>
+
+
+
+
+      
+
+
+    
+</dx-popup>
+
+
+
+<dx-popup width="360"
+          height="180"
+          [showTitle]="true"
+          [title]="warningText"
+          [dragEnabled]="false"
+          [closeOnOutsideClick]="false"
+          [showCloseButton]="true"
+          [(visible)]="popupDeleteVisible">
+  <dx-scroll-view width="100%" height="100%">
+    <dxo-position at="center"
+                  my="center"
+                  [of]="positionOf">
+    </dxo-position>
+    <div class="mb-4">
+
+      <span> {{'deleteMixingDetail'|translate}}</span>
+    </div>
+    <div class="display-block float-right">
+
+      <div class="float-right ml-1"><dx-button icon="glyphicon glyphicon-trash" class="btn-light" hint="{{'Delete'|translate}}" (onClick)="deleteData(deleteId,deleteMasterId)"></dx-button></div>
+      <!--<div class="float-right"><dx-button icon="glyphicon glyphicon-remove" class="btn-light" hint="{{'Cancel'|translate}}" (click)="close()"></dx-button></div>-->
+
+    </div>
+
+  </dx-scroll-view>
+</dx-popup>
+
+
+ 
+<br>
+<br>
+<br>
+<dx-popup width="400"
+          height="220"
+          [showTitle]="true"
+          [title]="warningText"
+          [dragEnabled]="false"
+          [closeOnOutsideClick]="false"
+          [showCloseButton]="true"
+          [(visible)]="popupImportVisible">
+  <dx-scroll-view width="100%" height="100%">
+    <dxo-position at="center"
+                  my="center"
+                  [of]="positionOf">
+    </dxo-position>
+    <div class="mb-4">
+
+      <span> {{'addDataWithDataDictionary'|translate}}</span>
+    </div>
+    <div class="mb-4">
+
+
+      <span> <strong>{{'continueWarning'|translate}}</strong></span>
+
+
+
+    </div>
+
+    <div class="display-block float-right">
+
+      <div class="float-right ml-1"><dx-button icon="glyphicon glyphicon-import" class="btn-light" hint="{{'ok'|translate}}" (onClick)="addwithDataD(id)"></dx-button></div>
+      <!--<div class="float-right"><dx-button icon="glyphicon glyphicon-remove" class="btn-light" hint="{{'Cancel'|translate}}" (click)="close()"></dx-button></div>-->
+
+    </div>
+
+  </dx-scroll-view>
+</dx-popup>
+
+
+
+
+
+
+<dx-popup width="360"
+          height="180"
+          [showTitle]="true"
+          [title]="warningText"
+          [dragEnabled]="false"
+          [closeOnOutsideClick]="false"
+          [showCloseButton]="true"
+          [(visible)]="popupApprovementPopUpVisible">
+  <dx-scroll-view width="100%" height="100%">
+    <dxo-position at="center"
+                  my="center"
+                  [of]="positionOf">
+    </dxo-position>
+
+    <div class="mb-4">
+
+      <span> {{'approveDataMixingChart'|translate}}</span>
+    </div>
+  
+
+    <div class="display-block float-right">
+
+      <div class="float-right ml-1"><dx-button icon="glyphicon glyphicon-check" hint="{{'ok'|translate}}" (onClick)="updateStatus()"></dx-button></div>
+      <!--<div class="float-right"><dx-button icon="glyphicon glyphicon-remove" class="btn-light" hint="{{'Cancel'|translate}}" (click)="close()"></dx-button></div>-->
+
+    </div>
+
+  </dx-scroll-view>
+</dx-popup>

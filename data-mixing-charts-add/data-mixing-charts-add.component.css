@@ -1,0 +1,96 @@
+.display-inline {
+  display: inline;
+}
+
+.float-start-h {
+  float: left;
+}
+
+.float-end-btn {
+  float: right;
+}
+
+.validation {
+  display: flex;
+  flex-direction: column;
+}
+
+.error-message {
+  background-color: #fff;
+  color: red;
+  font-size: 12px;
+  text-align: center;
+  text-align: left;
+}
+/*.error {
+  background-color: rgb(255, 192, 192);
+}*/
+
+
+
+.button-color::after {
+  color: white !important;
+  background-color: white !important;
+}
+
+.button-color {
+  color: white !important;
+  background-color: white !important;
+}
+
+
+  .button-color:hover {
+    color: black !important;
+    background-color: whitesmoke !important;
+  }
+
+#checkboxstyle {
+  margin-right: 600px;
+}
+
+#notes-container > .dx-field > .dx-field-label {
+  width: 35%;
+  float: left;
+}
+
+#notes-container > .dx-field > .dx-field-value {
+  float: left;
+  width: 65%;
+}
+
+#notes-container {
+  margin-left: 6%;
+  margin-right: 6%;
+}
+
+.dx-field {
+  background-color: floralwhite;
+  padding-left: 10px;
+  border-radius: 5px;
+  border: 1px solid;
+  border-color: lightgray;
+}
+
+.checkbox-w {
+  background-color: white;
+  border: 1px solid;
+  border-color: lightgray;
+  border-top-left-radius: 3px !important;
+  border-bottom-left-radius: 3px !important;
+}
+
+.button-validation {
+  background-color: red !important;
+  border-radius: 2px !important;
+  padding-bottom: 2px !important;
+}
+#notes-container > .dx-field > .dx-field-value input {
+  font-size: 1.15em;
+  height: 38.5px;
+  border: 1px solid;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  border-color: lightgray;
+}

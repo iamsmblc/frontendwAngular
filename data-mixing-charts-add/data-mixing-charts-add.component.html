@@ -1,0 +1,110 @@
+<div class="card ">
+  <div class="card-header">
+    <div class="display-inline pt-1 pb-1">
+      <h5 class="float-start-h">{{'dataMixingChartAdd'|translate}}</h5>
+      <dx-button class="float-right" icon="glyphicon glyphicon-remove"
+                 (click)="redirectToHome()"
+                 hint="{{'redirectToDataMixing'|translate}}"></dx-button>
+    </div>
+  </div>
+  <div class="card-body dx-custom-sheme">
+    <dx-form style="width:100%;"
+             searchEnabled=true;
+             [(formData)]="dataMixingMasterMain"
+             method="post"
+             [showColonAfterLabel]="true"
+             [showValidationSummary]="true"
+             [colCount]="2">
+      <dxi-item [colSpan]="2">
+
+
+        <div class="dx-fieldset" id="notes-container">
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'dataMixingVersion'|translate}}</div>
+            <div class="dx-field-value">
+              <dx-text-box [(value)]="dataMixingVersion_" [readOnly]="true"></dx-text-box>
+
+            </div>
+          </div>
+
+
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'dataMixingVersionDescription'|translate}}</div>
+            <div class="dx-field-value">
+              <dx-text-area [(value)]="dataMixingVersionDescription_">
+                <dx-validator>
+                  <dxi-validation-rule type="required"
+                                       message="Veri Karıştırma Versiyonu Açıklaması alanı doldurulmalıdır.">
+                  </dxi-validation-rule>
+                </dx-validator>
+
+
+
+              </dx-text-area>
+            </div>
+
+
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">{{'approvalStatus'|translate}}</div>
+            <div class="dx-field-value">
+              <dx-text-box [(value)]="approvalStatusName" [readOnly]="true"></dx-text-box>
+            </div>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">{{'fromDate'|translate}}</div>
+            <div class="dx-field-value">
+              <dx-text-box [(value)]="fromDate_" [readOnly]="true"></dx-text-box>
+            </div>
+          </div>
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'excelLink'|translate}} </div>
+            <div class="dx-field-value">
+
+              <input style="width:527px" class="form-control" type="file"
+                     (change)="onExcelChange($event)" >
+
+              <button type="button" style="width:101.75px;height:38.5px;border: 1px solid lightgray;" (click)="onExcelUpload()"
+                      class="btn btn-light">
+                {{'upload'|translate}}
+              </button>
+
+
+            </div>
+          </div>
+
+          <div class="dx-field">
+            <div class="dx-field-label">{{'approvalMailLink'|translate}}</div>
+            <div class="dx-field-value">
+              
+              <input style="width:527px" class="form-control" type="file"
+                     (change)="onMailChange($event)">
+
+              <button type="button" style="width:101.75px;height:38.5px;border: 1px solid lightgray;" (click)="onMailUpload()"
+                      class="btn btn-light">
+                {{'upload'|translate}}
+              </button>
+
+
+            </div>   
+          </div>
+        </div>
+        <hr />
+
+
+
+      </dxi-item>
+    </dx-form>
+  </div>
+
+  <div style="text-align: center">
+    <dx-button class="btn-light button-color" icon="glyphicon glyphicon-plus" hint="{{ 'Add' | translate }}"  [useSubmitBehavior]="true" (onClick)="addData(dataMixingVersionDescription_, excelLink_, approvalMailLink_) "></dx-button>
+  </div>
+
+  <br />
+</div>
+
+
